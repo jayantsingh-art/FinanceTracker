@@ -2,7 +2,7 @@ import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
 const api = axios.create({
-  baseURL: '/api',
+  baseURL: import.meta.env.VITE_API_URL,
   headers: {
     'Content-Type': 'application/json'
   }
@@ -59,7 +59,7 @@ api.interceptors.response.use(
 
         console.log("  Refresh Token:", refreshToken.substring(0, 20) + "...");
         console.log("  Sending refresh request to /api/auth/refresh");
-        const response = await axios.post('/api/auth/refresh', { refreshToken });
+        const response = await axios.post(`${import.meta.env.VITE_API_URL}/auth/refresh`, { refreshToken });
         
         console.log("  Refresh successful!");
         const { accessToken, refreshToken: newRefreshToken } = response.data.data;
