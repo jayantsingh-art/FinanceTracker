@@ -1,6 +1,8 @@
 import axios from 'axios';
 import { useAuthStore } from '../stores/authStore';
 
+console.log("ENV API URL:", import.meta.env.VITE_API_URL);
+
 const api = axios.create({
   baseURL: import.meta.env.VITE_API_URL,
   headers: {
@@ -12,6 +14,7 @@ const api = axios.create({
 api.interceptors.request.use(
   (config) => {
     console.log(" REQUEST INTERCEPTOR - Outgoing Request");
+    console.log(" BASE URL:", config.baseURL);
     console.log("  URL:", config.method.toUpperCase(), config.baseURL + config.url);
     const token = useAuthStore.getState().getToken();
     console.log("  Access Token:", token ? `${token.substring(0, 20)}...` : "NO TOKEN");
